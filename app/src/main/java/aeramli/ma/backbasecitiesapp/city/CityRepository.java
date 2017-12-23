@@ -3,6 +3,7 @@ package aeramli.ma.backbasecitiesapp.city;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -30,6 +31,7 @@ public class CityRepository {
         } else {
             diskDataSource.parseCities(citiesFromDisk -> {
                 final List<City> cities = mapper.fromDisk(citiesFromDisk);
+                sortCities(cities);
                 Trie<City> trie = new Trie<>();
                 trie.add(cities);
                 trieCache.set(trie);
@@ -39,12 +41,26 @@ public class CityRepository {
         }
     }
 
+    private void sortCities(List<City> cities) {
+        Collections.sort(cities, (firstCity, secondCity) -> {
+            int result = firstCity.getName().compareTo(secondCity.getName());
+            if (result != 0) {
+                return result;
+            }
+            return firstCity.getCountry().compareTo(secondCity.getCountry());
+        });
+    }
+
     public void search(String name, @NonNull OnSearchFinishedListener listener) {
-        if(name.isEmpty()){
+        if (name.isEmpty()) {
             listener.onSearchFinished(allCitiesCache.get());
             return;
         }
-        AsyncTask.execute(() -> listener.onSearchFinished(trieCache.get().autocomplete(name)));
+        AsyncTask.execute(() -> {
+            List<City> cities = trieCache.get().autocomplete(name);
+            sortCities(cities);
+            listener.onSearchFinished(cities);
+        });
     }
 
     public interface OnCitiesRetrievedListener {
