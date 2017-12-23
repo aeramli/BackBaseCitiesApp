@@ -1,6 +1,7 @@
 package aeramli.ma.backbasecitiesapp.ui.city.fragment;
 
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,14 +20,20 @@ import aeramli.ma.backbasecitiesapp.BackBaseApplication;
 import aeramli.ma.backbasecitiesapp.R;
 import aeramli.ma.backbasecitiesapp.city.CityRepository;
 import aeramli.ma.backbasecitiesapp.databinding.FragmentCityListBinding;
+import aeramli.ma.backbasecitiesapp.ui.city.adapter.CityListRecyclerAdapter;
 import aeramli.ma.backbasecitiesapp.ui.viewmodel.CityListFragmentViewModel;
 
 public class CityListFragment extends Fragment {
     private FragmentCityListBinding binding;
     private CityListFragmentViewModel viewModel;
+    private CityListRecyclerAdapter.OnCitySelectedListener listener;
 
     public CityListFragment() {
         // Required empty public constructor
+    }
+
+    public static CityListFragment newInstance() {
+        return new CityListFragment();
     }
 
     @Override
@@ -41,6 +48,12 @@ public class CityListFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (CityListRecyclerAdapter.OnCitySelectedListener) context;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         inject();
@@ -50,6 +63,7 @@ public class CityListFragment extends Fragment {
         binding.recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         ((SimpleItemAnimator) binding.recycler.getItemAnimator()).setSupportsChangeAnimations(false);
         binding.setViewModel(viewModel);
+        binding.setListener(listener);
     }
 
     @Override

@@ -18,11 +18,9 @@
             android:minHeight="?attr/actionBarSize"
             app:titleTextColor="@android:color/white" />
 
-        <fragment
+        <FrameLayout
             android:id="@+id/fragment"
-            android:name="aeramli.ma.backbasecitiesapp.ui.city.fragment.CityListFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </layout>

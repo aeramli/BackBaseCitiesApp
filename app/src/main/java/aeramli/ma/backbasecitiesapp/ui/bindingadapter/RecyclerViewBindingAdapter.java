@@ -11,10 +11,10 @@ import aeramli.ma.backbasecitiesapp.ui.city.adapter.CityListRecyclerAdapter;
 
 public class RecyclerViewBindingAdapter {
 
-    @BindingAdapter({"cities"})
-    public static void setStations(RecyclerView recyclerView, List<City> cityList) {
+    @BindingAdapter(value = {"cities", "listener"}, requireAll = false)
+    public static void setStations(RecyclerView recyclerView, List<City> cityList, CityListRecyclerAdapter.OnCitySelectedListener listener) {
         if (cityList != null) {
-            recyclerView.setAdapter(new CityListRecyclerAdapter(cityList));
+            recyclerView.setAdapter(new CityListRecyclerAdapter(cityList, listener));
         }
     }
 }

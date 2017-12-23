@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="aeramli.ma.backbasecitiesapp.ui.viewmodel.CityListFragmentViewModel" />
+
+        <variable
+            name="listener"
+            type="aeramli.ma.backbasecitiesapp.ui.city.adapter.CityListRecyclerAdapter.OnCitySelectedListener"/>
     </data>
 
     <android.support.v7.widget.RecyclerView
@@ -15,5 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        app:cities="@{viewModel.cities}" />
+        app:cities="@{viewModel.cities}"
+        app:listener="@{listener}"/>
 </layout>
