@@ -39,7 +39,19 @@ public class CityRepository {
         }
     }
 
+    public void search(String name, @NonNull OnSearchFinishedListener listener) {
+        if(name.isEmpty()){
+            listener.onSearchFinished(allCitiesCache.get());
+            return;
+        }
+        AsyncTask.execute(() -> listener.onSearchFinished(trieCache.get().autocomplete(name)));
+    }
+
     public interface OnCitiesRetrievedListener {
         void onCitiesRetrieved(List<City> cities);
+    }
+
+    public interface OnSearchFinishedListener {
+        void onSearchFinished(List<City> cities);
     }
 }
