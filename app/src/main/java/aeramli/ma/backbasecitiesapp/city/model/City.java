@@ -40,6 +40,6 @@ public class City implements TrieItem {
 
     @Override
     public String getValue() {
-        return getName();
+        return getName().toLowerCase();
     }
 }
