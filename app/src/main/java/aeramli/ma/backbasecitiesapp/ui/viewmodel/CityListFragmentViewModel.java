@@ -1,5 +1,6 @@
 package aeramli.ma.backbasecitiesapp.ui.viewmodel;
 
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
 import java.util.Collections;
@@ -11,34 +12,30 @@ import aeramli.ma.backbasecitiesapp.city.model.City;
 public class CityListFragmentViewModel {
     private final CityRepository repository;
     private final ObservableField<List<City>> cities;
+    private final ObservableBoolean progressVisible;
 
     public CityListFragmentViewModel(CityRepository repository) {
         this.repository = repository;
         this.cities = new ObservableField<>(Collections.emptyList());
+        this.progressVisible = new ObservableBoolean(true);
     }
 
     public ObservableField<List<City>> getCities() {
         return cities;
     }
 
-    public void retrieveCities() {
-        retrieveCities(null);
+    public ObservableBoolean getProgressVisible() {
+        return progressVisible;
     }
 
-    public void retrieveCities(OnRetrieveFinishedListener listener) {
+    public void retrieveCities() {
         repository.retrieve(citiesList -> {
             cities.set(citiesList);
-            if (listener != null) {
-                listener.onRetrieveFinished(citiesList);
-            }
+            progressVisible.set(false);
         });
     }
 
     public void search(String searchQuery) {
         repository.search(searchQuery, cities::set);
-    }
-
-    public interface OnRetrieveFinishedListener {
-        void onRetrieveFinished(List<City> cities);
     }
 }

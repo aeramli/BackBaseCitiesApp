@@ -26,19 +26,31 @@ public class CityRepository {
     }
 
     public void retrieve(@NonNull final OnCitiesRetrievedListener listener) {
+        if (allCitiesCache.get() != null) {
+            listener.onCitiesRetrieved(allCitiesCache.get());
+            return;
+        }
         if (trieCache.get() != null) {
-            AsyncTask.execute(() -> listener.onCitiesRetrieved(trieCache.get().getItems()));
+            AsyncTask.execute(() -> {
+                final List<City> cities = trieCache.get().getItems();
+                sortAndStoreToCache(cities);
+                listener.onCitiesRetrieved(cities);
+            });
         } else {
             diskDataSource.parseCities(citiesFromDisk -> {
                 final List<City> cities = mapper.fromDisk(citiesFromDisk);
-                sortCities(cities);
+                sortAndStoreToCache(cities);
                 Trie<City> trie = new Trie<>();
                 trie.add(cities);
                 trieCache.set(trie);
-                allCitiesCache.set(cities);
                 listener.onCitiesRetrieved(cities);
             });
         }
+    }
+
+    private void sortAndStoreToCache(List<City> cities){
+        sortCities(cities);
+        allCitiesCache.set(cities);
     }
 
     private void sortCities(List<City> cities) {

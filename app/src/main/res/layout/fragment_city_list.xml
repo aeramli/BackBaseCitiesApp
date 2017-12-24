@@ -5,20 +5,50 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="aeramli.ma.backbasecitiesapp.ui.viewmodel.CityListFragmentViewModel" />
 
         <variable
             name="listener"
-            type="aeramli.ma.backbasecitiesapp.ui.city.adapter.CityListRecyclerAdapter.OnCitySelectedListener"/>
+            type="aeramli.ma.backbasecitiesapp.ui.city.adapter.CityListRecyclerAdapter.OnCitySelectedListener" />
     </data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        app:cities="@{viewModel.cities}"
-        app:listener="@{listener}"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:cities="@{viewModel.cities}"
+            app:listener="@{listener}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="@{viewModel.progressVisible ? View.VISIBLE : View.GONE}">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/progress_message" />
+
+        </LinearLayout>
+    </FrameLayout>
 </layout>
