@@ -69,7 +69,7 @@ public class CityRepository {
             return;
         }
         AsyncTask.execute(() -> {
-            List<City> cities = trieCache.get().autocomplete(name.toLowerCase());
+            List<City> cities = trieCache.get().autocomplete(name);
             sortCities(cities);
             listener.onSearchFinished(cities);
         });

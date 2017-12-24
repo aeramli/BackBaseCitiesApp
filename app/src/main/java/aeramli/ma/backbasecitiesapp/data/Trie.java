@@ -43,10 +43,11 @@ public class Trie<T extends TrieItem> {
     }
 
     public List<T> autocomplete(@NonNull String prefix) {
+        final String formattedPrefix = prefix.toLowerCase();
         TrieNode<T> node = root;
         char letter;
-        for (int i = 0; i < prefix.length(); i++) {
-            letter = prefix.charAt(i);
+        for (int i = 0; i < formattedPrefix.length(); i++) {
+            letter = formattedPrefix.charAt(i);
             if (node.getChildren().containsKey(letter)) {
                 node = node.getChildren().get(letter);
             } else {

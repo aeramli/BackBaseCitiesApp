@@ -4,6 +4,8 @@
 
 ### Why Trie ?
 
+![See implementation here](app/src/main/java/aeramli/ma/backbasecitiesapp/data)
+
 Trie is a type of tree data structure, it is normally used to store characters / strings / dictionary ...Etc :
 
 * Each node represents a character
